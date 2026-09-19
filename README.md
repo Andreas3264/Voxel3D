@@ -2,6 +2,7 @@
 
 ## Controls:
 - WASD - Move
+- Space - Jump
 - LMB - Break block / attack
 - RMB - Blace block / use item
 - C - Drop item
@@ -14,5 +15,5 @@
 
 ## Quick download command:
 ```console
-wget https://github.com/Katt3264/Voxel3D/archive/refs/heads/main.zip && unzip main.zip && rm main.zip
+wget https://github.com/Andreas3264/Voxel3D/archive/refs/heads/main.zip && unzip main.zip && rm main.zip
 ```
