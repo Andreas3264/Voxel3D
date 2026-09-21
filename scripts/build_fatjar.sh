@@ -38,4 +38,3 @@ echo ">> JAR created: $FATJAR_FILE"
 
 echo ">> Cleaning up..."
 rm -rf "$TEMP_DIR" manifest.txt
-
