@@ -4,6 +4,8 @@ cd "$(dirname "$0")"
 source build.conf
 cd ..
 
+set -e # stop on error
+
 # Clean old build
 rm -rf "$TEMP_DIR" "$JAR_FILE"
 mkdir -p "$TEMP_DIR"
