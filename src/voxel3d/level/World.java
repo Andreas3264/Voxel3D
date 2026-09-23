@@ -162,7 +162,7 @@ public class World implements DataStreamable {
 		}
 	}
 	
-	public boolean setBlock(int x, int y, int z, Block block)
+	private boolean setBlock(int x, int y, int z, Block block)
 	{
 		synchronized(this)
 		{
@@ -208,11 +208,6 @@ public class World implements DataStreamable {
 		{
 			writeback.set(ox, oy, oz);
 		}
-	}
-	
-	public Color getSkyColor()
-	{
-		return skyColor;
 	}
 	
 	public Chunk tryGetChunk(int x, int y, int z)
@@ -347,7 +342,7 @@ public class World implements DataStreamable {
 		}
 	}
 	
-	public int getOverlappingBox(AABB aabb, AABB[] writeback)
+	private int getOverlappingBox(AABB aabb, AABB[] writeback)
 	{
 		int minX = (int) (Math.floor(aabb.minX) - 1);
         int maxX = (int) (Math.ceil(aabb.maxX) + 1);
@@ -427,7 +422,7 @@ public class World implements DataStreamable {
 		return false;
 	}
 	
-	public void spawnRoutine()
+	private void spawnRoutine()
 	{
 		Random random = new Random();
 		for(Spawnable spawnable : Entity.getSpawnables())
