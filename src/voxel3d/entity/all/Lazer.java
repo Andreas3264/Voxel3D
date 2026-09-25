@@ -1,6 +1,5 @@
 package voxel3d.entity.all;
 
-import voxel3d.audio.AudioSource;
 import voxel3d.entity.Entity;
 import voxel3d.entity.EntityRenderContext;
 import voxel3d.entity.EntityUpdateContext;
@@ -59,9 +58,6 @@ public class Lazer extends Entity {
 	private void explode()
 	{
 		this.alive = false;
-		//AudioSource as = Objects.audioManager.playSound(position, Objects.explosion);
-		//as.setGain(0.05f);
-		
 	}
 	
 	@Override
