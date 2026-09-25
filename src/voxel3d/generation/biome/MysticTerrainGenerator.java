@@ -1,22 +1,39 @@
 package voxel3d.generation.biome;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import voxel3d.block.Block;
 import voxel3d.block.all.*;
 import voxel3d.generation.Fields;
+import voxel3d.generation.GenerationUtility;
 import voxel3d.generation.OreGen;
+import voxel3d.generation.structures.*;
+import voxel3d.level.Chunk;
 
-public class MysticBiome extends Biome{
+public class MysticTerrainGenerator implements TerrainGenerator {
 	
-	private double size;
-	public MysticBiome(double size)
+	private static final List<Structure> structures;
+	static
 	{
-		this.size = size;
+		structures = new ArrayList<Structure>();
+		structures.add(new CrimsonTree());
+		structures.add(new EtherealTree());
 	}
 	
 	@Override
-	public Block getBlock(int x, int y, int z)
+	public void populate(Chunk chunk) 
+	{
+		GenerationUtility.standardPopulation(chunk, this, structures);
+	}
+	
+	@Override
+	public Block getBlock(int x, int y, int z) {
+		return staticGetBlock(x, y, z);
+	}
+	
+	private Block staticGetBlock(int x, int y, int z)
 	{
 		int height = (int) Math.floor(getHeight(x, z));
 		
@@ -116,11 +133,4 @@ public class MysticBiome extends Biome{
 		//return Fields.OctaveMap2D(x + 92365, z + 127771, 128);
 		return -getHeight(x, z);
 	}
-
-	@Override
-	public double getSize() 
-	{
-		return size;
-	}
-
 }

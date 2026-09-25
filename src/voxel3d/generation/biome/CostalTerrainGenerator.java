@@ -12,7 +12,7 @@ import voxel3d.generation.OreGen;
 import voxel3d.generation.structures.*;
 import voxel3d.level.Chunk;
 
-public class OverworldTerrainGenerator implements TerrainGenerator {
+public class CostalTerrainGenerator implements TerrainGenerator {
 	
 	private static final int sandHeight = 2;
 	
@@ -20,10 +20,7 @@ public class OverworldTerrainGenerator implements TerrainGenerator {
 	static
 	{
 		structures = new ArrayList<Structure>();
-		structures.add(new OakTree());
-		structures.add(new BirchTree());
-		structures.add(new House());
-		structures.add(new LargeTower());
+		//structures.add(new OakTree());
 	}
 	
 	@Override
@@ -45,7 +42,7 @@ public class OverworldTerrainGenerator implements TerrainGenerator {
 		
 		if(y > height && y <= 0 && height <= 0)
 		{
-			ret = LavaStoneBlock.getInstance();
+			ret = GlassBlock.getInstance();
 		}
 		else if(y > height + 1)
 		{
@@ -74,7 +71,22 @@ public class OverworldTerrainGenerator implements TerrainGenerator {
 	private static int getHeight(int x, int z)
 	{
 		double height = Math.floor(Fields.OctaveMap2D(x, z, 512) * 32 + 8);
+		height += getExtremeHeigh(x + 567238, z - 6538472);
+		if(height >= 0) {height += getCosteHeigh(926835 - x, 758623 - z);}
+		if(height < 0)  {height -= getCosteHeigh(926835 - x, 758623 - z);}
 		return (int) height;
+	}
+	
+	private static double getCosteHeigh(int x, int z)
+	{
+		double height = Math.max(Fields.OctaveMap2D(x, z, 128) * 32d, 0);
+		return height;
+	}
+	
+	private static double getExtremeHeigh(int x, int z)
+	{
+		double extremeHeight = Math.max(Fields.OctaveMap2D(x, z, 128) * 128d - 64d, 0);
+		return extremeHeight;
 	}
 	
 	private static Block foliageBlock(int x, int y, int z)

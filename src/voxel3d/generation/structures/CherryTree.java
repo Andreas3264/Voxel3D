@@ -2,15 +2,14 @@ package voxel3d.generation.structures;
 
 import java.util.Random;
 
-import voxel3d.block.Block;
 import voxel3d.block.all.*;
-import voxel3d.level.ChunkPopulator;
+import voxel3d.generation.GenerationContext;
 import voxel3d.global.Settings;
 
-public class CherryTree /*extends Structure*/ {
-	/*
+public class CherryTree implements Structure {
+	
 	@Override
-	public void placeBlocks(int x, int y, int z, Block[] blocks)
+	public void placeStructure(int x, int y, int z, GenerationContext context)
 	{
 		for(int xx = -2; xx <= 2; xx++)
 		{
@@ -18,7 +17,7 @@ public class CherryTree /*extends Structure*/ {
 			{
 				for(int zz = -2; zz <= 2; zz++)
 				{
-					placeBlock(x + xx, y + yy, z + zz, CherryLeavesBlock.getInstance(), blocks);
+					context.placeBlock(x + xx, y + yy, z + zz, CherryLeavesBlock.getInstance());
 				}
 			}
 		}
@@ -29,43 +28,53 @@ public class CherryTree /*extends Structure*/ {
 			{
 				for(int zz = -1; zz <= 1; zz++)
 				{
-					placeBlock(x + xx, y + yy, z + zz, CherryLeavesBlock.getInstance(), blocks);
+					context.placeBlock(x + xx, y + yy, z + zz, CherryLeavesBlock.getInstance());
 				}
 			}
 		}
 		
 		for(int h = 0; h < 5; h++)
 		{
-			placeBlock(x, y + h, z, CherryLogBlock.getInstance(), blocks);
+			context.placeBlock(x, y + h, z, CherryLogBlock.getInstance());
 		}
-		placeBlock(x, y - 1, z, DirtBlock.getInstance(), blocks);
+		context.placeBlock(x, y - 1, z, DirtBlock.getInstance());
 	}
 	
 	@Override
-	public void placeExistingOffset(int cx, int cy, int cz, int ox, int oy, int oz, Block[] blocks)
+	public void placeInChunk(int cx, int cy, int cz, GenerationContext context)
 	{
-		Random random = new Random();
-		random.setSeed(cx * 2133 + cy * 2142767 + cz * 736329);
-		
-		int tests = (Settings.CHUNK_SIZE3) / 50;
-		for(int i = 0; i < tests; i++)
-		{
-			int xx = random.nextInt(Settings.CHUNK_SIZE);
-			int yy = random.nextInt(Settings.CHUNK_SIZE);
-			int zz = random.nextInt(Settings.CHUNK_SIZE);
-			
-			int x = xx + cx * Settings.CHUNK_SIZE;
-			int y = yy + cy * Settings.CHUNK_SIZE;
-			int z = zz + cz * Settings.CHUNK_SIZE;
-			
-			if(ChunkPopulator.getBlock(x, y - 1, z) instanceof SkyGrassBlock)
-			{
-				int px = xx + ox * Settings.CHUNK_SIZE;
-				int py = yy + oy * Settings.CHUNK_SIZE;
-				int pz = zz + oz * Settings.CHUNK_SIZE;
-				placeBlocks(px, py, pz, blocks);
+		for(int ox = -1; ox <=1 ; ox++) {
+			for(int oy = -1; oy <= 1; oy++) {
+				for(int oz = -1; oz <= 1; oz++) {
+					
+					// chunk that is being checked
+					int rx = cx + ox;
+					int ry = cy + oy;
+					int rz = cz + oz;
+					
+					Random random = new Random();
+					random.setSeed(rx * 2137 + ry * 212231 + rz * 736125);
+					
+					int tests = (Settings.CHUNK_SIZE3) / 50;
+					for(int i = 0; i < tests; i++)
+					{
+						// chunk relative point
+						int xx = random.nextInt(Settings.CHUNK_SIZE);
+						int yy = random.nextInt(Settings.CHUNK_SIZE);
+						int zz = random.nextInt(Settings.CHUNK_SIZE);
+						
+						// absolute position
+						int x = xx + rx * Settings.CHUNK_SIZE;
+						int y = yy + ry * Settings.CHUNK_SIZE;
+						int z = zz + rz * Settings.CHUNK_SIZE;
+						
+						if(context.generator.getBlock(x, y - 1, z) instanceof SkyGrassBlock)
+						{
+							placeStructure(x, y, z, context);
+						}
+					}
+				}
 			}
 		}
 	}
-*/
 }

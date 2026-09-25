@@ -2,16 +2,15 @@ package voxel3d.generation.structures;
 
 import java.util.Random;
 
-import voxel3d.block.Block;
 import voxel3d.block.all.*;
 import voxel3d.generation.Fields;
-import voxel3d.generation.biome.OverworldTerrainGenerator;
+import voxel3d.generation.GenerationContext;
 import voxel3d.global.Settings;
 
-public class OakTree extends Structure {
+public class OakTree implements Structure {
 	
 	@Override
-	public void placeStructure(int x, int y, int z, Block[] blocks)
+	public void placeStructure(int x, int y, int z, GenerationContext context)
 	{
 		for(int xx = -2; xx <= 2; xx++)
 		{
@@ -19,7 +18,7 @@ public class OakTree extends Structure {
 			{
 				for(int zz = -2; zz <= 2; zz++)
 				{
-					placeBlock(x + xx, y + yy, z + zz, OakLeavesBlock.getInstance(), blocks);
+					context.placeBlock(x + xx, y + yy, z + zz, OakLeavesBlock.getInstance());
 				}
 			}
 		}
@@ -30,20 +29,20 @@ public class OakTree extends Structure {
 			{
 				for(int zz = -1; zz <= 1; zz++)
 				{
-					placeBlock(x + xx, y + yy, z + zz, OakLeavesBlock.getInstance(), blocks);
+					context.placeBlock(x + xx, y + yy, z + zz, OakLeavesBlock.getInstance());
 				}
 			}
 		}
 		
 		for(int h = 0; h < 5; h++)
 		{
-			placeBlock(x, y + h, z, OakLogBlock.getInstance(), blocks);
+			context.placeBlock(x, y + h, z, OakLogBlock.getInstance());
 		}
-		placeBlock(x, y - 1, z, DirtBlock.getInstance(), blocks);
+		context.placeBlock(x, y - 1, z, DirtBlock.getInstance());
 	}
 	
 	@Override
-	public void placeInChunk(int cx, int cy, int cz, Block[] blocks)
+	public void placeInChunk(int cx, int cy, int cz, GenerationContext context)
 	{
 		for(int ox = -1; ox <=1 ; ox++) {
 			for(int oy = -1; oy <= 1; oy++) {
@@ -57,7 +56,7 @@ public class OakTree extends Structure {
 					Random random = new Random();
 					random.setSeed(rx * 2137 + ry * 212231 + rz * 736125);
 					
-					int tests = (Settings.CHUNK_SIZE * Settings.CHUNK_SIZE * Settings.CHUNK_SIZE) / 64;
+					int tests = (Settings.CHUNK_SIZE3) / 64;
 					for(int i = 0; i < tests; i++)
 					{
 						// chunk relative point
@@ -73,14 +72,9 @@ public class OakTree extends Structure {
 						if (Fields.OctaveMap2D(x, z, 128) < 0.0d)
 							continue;
 						
-						if(OverworldTerrainGenerator.staticGetBlock(x, y - 1, z) instanceof GrassBlock)
+						if(context.generator.getBlock(x, y - 1, z) instanceof GrassBlock)
 						{
-							// position relative to chunk to place in
-							int px = x - cx * Settings.CHUNK_SIZE;
-							int py = y - cy * Settings.CHUNK_SIZE;
-							int pz = z - cz * Settings.CHUNK_SIZE;
-							
-							placeStructure(px, py, pz, blocks);
+							placeStructure(x, y, z, context);
 						}
 					}
 				}

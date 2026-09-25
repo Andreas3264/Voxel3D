@@ -1,10 +1,18 @@
 package voxel3d.generation.biome;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import voxel3d.block.Block;
 import voxel3d.block.all.*;
 import voxel3d.generation.Fields;
+import voxel3d.generation.GenerationUtility;
+import voxel3d.generation.structures.*;
+import voxel3d.level.Chunk;
 
-public class RainbowBiome extends Biome {
+public class RainbowTerrainGenerator implements TerrainGenerator {
+	
+	private static final List<Structure> structures = new ArrayList<Structure>();
 	
 	private static Block[] stones = new Block[] {
 		RedStoneBlock.getInstance(),
@@ -15,15 +23,19 @@ public class RainbowBiome extends Biome {
 		YellowStoneBlock.getInstance(),
 	};
 	
-	private double size;
-	public RainbowBiome(double size)
+	@Override
+	public void populate(Chunk chunk) 
 	{
-		this.size = size;
+		GenerationUtility.standardPopulation(chunk, this, structures);
 	}
 	
-	public Block getBlock(int x, int y, int z)
+	@Override
+	public Block getBlock(int x, int y, int z) {
+		return staticGetBlock(x, y, z);
+	}
+	
+	private static Block staticGetBlock(int x, int y, int z)
 	{
-		//double in = (Math.min(inland, 32))/32d;
 		int height = (int) Math.floor(getHeight(x, z));
 		
 		if(y > height)
@@ -50,11 +62,4 @@ public class RainbowBiome extends Biome {
 		//val = val*val;
 		return val * 512;
 	}
-
-	@Override
-	public double getSize() 
-	{
-		return size;
-	}
-
 }
