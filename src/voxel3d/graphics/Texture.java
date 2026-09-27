@@ -35,26 +35,16 @@ public class Texture {
 	
 	private Texture(BufferedImage image)
 	{
-		byte[] bytes = null;
+		byte[] bytes = new byte[image.getWidth() * image.getHeight() * 4];
 		
-		try {
-			
-			bytes = new byte[image.getWidth() * image.getHeight() * 4];
-			
-			for(int i = 0; i < bytes.length; i+=4)
-			{
-				int argb = image.getRGB((i/4)%image.getWidth(), Math.floorDiv((i/4), image.getWidth())); 
-				bytes[i  ] = (byte) ((argb >> 16) & 0xff);
-				bytes[i+1] = (byte) ((argb >> 8 ) & 0xff);
-				bytes[i+2] = (byte) ((argb >> 0 ) & 0xff);
-				bytes[i+3] = (byte) ((argb >> 24) & 0xff);
-			}
-		} 
-		catch (Exception e) 
+		for(int i = 0; i < bytes.length; i+=4)
 		{
-			e.printStackTrace();
+			int argb = image.getRGB((i/4)%image.getWidth(), Math.floorDiv((i/4), image.getWidth())); 
+			bytes[i  ] = (byte) ((argb >> 16) & 0xff);
+			bytes[i+1] = (byte) ((argb >> 8 ) & 0xff);
+			bytes[i+2] = (byte) ((argb >> 0 ) & 0xff);
+			bytes[i+3] = (byte) ((argb >> 24) & 0xff);
 		}
-		
 		
 		ByteBuffer buf = BufferUtils.createByteBuffer(bytes.length);
 		
