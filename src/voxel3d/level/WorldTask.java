@@ -90,7 +90,6 @@ public class WorldTask {
 			
 			if(chunk.shouldSave() && !chunk.isSaving) 
 			{
-				//TODO: repsect settings.saveEnable
 				ChunkUnloader unloader = new ChunkUnloader(chunk, world.name);
 				if(force)
 					unloader.execute();

@@ -107,10 +107,8 @@ public class WorldScheduler {
 		
 		public void run() 
 		{
-			if(Settings.loadEnable)
-			{
-				DataLoader.loadLevel(world);
-			}
+			DataLoader.loadLevel(world);
+			
 			isWorldLoaded = true;
 			
 			while(running) 
@@ -126,15 +124,11 @@ public class WorldScheduler {
 					terminate();
 				}
 			}
+			Debug.log("saving level");
+			task.unloadCleanup(true);
+			DataLoader.saveLevel(world);
+			Debug.log("saving complete");
 			
-			if(Settings.saveEnable)
-			{
-				Debug.log("saving level");
-				task.unloadCleanup(true);
-				DataLoader.saveLevel(world);
-		        Debug.log("saving complete");
-		        
-			}
 			isWorldUnloaded = true;
 		}
 		
