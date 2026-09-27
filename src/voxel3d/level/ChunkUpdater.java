@@ -31,19 +31,10 @@ public class ChunkUpdater implements Executable {
 			randomContext.setLocalPos(rpx, rpy, rpz);
 			chunk.getBlock(rpx, rpy, rpz).onRandomUpdate(randomContext);
 		}
-		
-		//TODO: support simulation blocks
-		/*BlockOnSimulateContext context = new BlockOnSimulateContext(deltaTime, chunks);
-		for(Entry<Vector3I, BlockSimulable> entry : chunks[1][1][1].getSimulableBlocks())
-		{
-			context.setLocalPos(entry.getKey().x, entry.getKey().y, entry.getKey().z);
-			entry.getValue().onSimulate(context);
-		}*/
 		 
 		if(randomContext.updateMesh)
 		{
 			chunk.setRebuildMeshFlag();
 		}
 	}
-
 }
